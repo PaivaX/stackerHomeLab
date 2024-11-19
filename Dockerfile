@@ -2,7 +2,7 @@
 FROM python:3.9-slim
 
 # Setando o diretório de trabalho
-WORKDIR /homelab
+WORKDIR /app
 
 # Copiar o arquivo de dependências
 COPY /homelab/requirements.txt .
@@ -15,6 +15,8 @@ COPY . .
 
 # Expor a porta que o Django estará rodando
 EXPOSE 8000
+
+WORKDIR /app/homelab
 
 # Comando para rodar a aplicação
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

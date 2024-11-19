@@ -7,7 +7,7 @@ services:
     container_name: homedashlab
     restart: always
     ports:
-      - "8000:8000"
+      - "80:8000"
     volumes:
       - .:/app  # Caso queira persistir dados de código em tempo real
     environment:
