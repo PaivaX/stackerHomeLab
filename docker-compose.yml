@@ -4,7 +4,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: homedashlab
+    container_name: stackerhomelab
     restart: always
     ports:
       - "80:8000"

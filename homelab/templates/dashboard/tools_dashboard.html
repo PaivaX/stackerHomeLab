@@ -1,0 +1,57 @@
+{% extends "includes/base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Dashboard de Ferramentas</h1>
+
+    <!-- IP Público -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5>IP Público</h5>
+        </div>
+        <div class="card-body">
+            <p>{{ public_ip }}</p>
+        </div>
+    </div>
+
+    <!-- Uptime Kuma -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5>Uptime Kuma</h5>
+        </div>
+        <div class="card-body">
+            {% if uptime_kuma_data %}
+                <pre>{{ uptime_kuma_data|json_script:"uptime_kuma_data" }}</pre>
+            {% else %}
+                <p>Não foi possível obter dados do Uptime Kuma.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Docker -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5>Docker Containers</h5>
+        </div>
+        <div class="card-body">
+            <ul>
+                {% for container in docker_info %}
+                    <li>{{ container.name }} - Status: {{ container.status }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <!-- Server Information -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5>Informações do Servidor</h5>
+        </div>
+        <div class="card-body">
+            <p>Uso de CPU: {{ server_info.cpu_usage }}%</p>
+            <p>Memória total: {{ server_info.memory_total|floatformat:2 }} MB</p>
+            <p>Memória disponível: {{ server_info.memory_available|floatformat:2 }} MB</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

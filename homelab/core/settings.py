@@ -14,11 +14,20 @@ import os
 from pathlib import Path
 import environ
 
-# Start .env
+# Start Environment
 env = environ.Env()
 
-# Read .env
-environ.Env.read_env()
+# Path to .env file
+env_file = os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env')
+
+# Read .env (if exist)
+if os.path.exists(env_file):
+    environ.Env.read_env(env_file)
+else:
+    print(f"File .env not found: {env_file}")
+
+# Config ALLOWED_HOSTS
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=[])
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -32,8 +41,6 @@ SECRET_KEY = 'django-insecure-xl7s+t62nc$n8otp)a)=gw#jhjabg872ie50@co&_(m%q&bq2z
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=[])
 
 
 # Application definition
@@ -51,8 +58,8 @@ INSTALLED_APPS = [
     'django_otp.plugins.otp_static',
     'allauth',  # Adicione o allauth
     'allauth.account',  # Adicione o allauth.account
-    'dashboard',  # App personalizado
-    'rest_framework',  # API
+    'dashboard',
+    'cards',
 ]
 
 MIDDLEWARE = [

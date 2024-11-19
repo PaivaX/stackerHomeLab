@@ -1,0 +1,19 @@
+{% extends 'includes/base.html' %}
+
+{% block content %}
+<!-- dashboard.html -->
+
+{% if ip_card %}
+    <h3>{{ ip_card.name }}</h3>
+    <p>Última atualização: {{ ip_card.last_updated }}</p>
+    
+    {% if ip_card.card_type == 'public_ip' %}
+        <p>IP Público: {{ ip_card.data.public_ip }}</p>
+    {% endif %}
+    
+    <!-- Adicionar mais condições para outros tipos de cartões, como 'docker' -->
+{% else %}
+    <p>Nenhum cartão disponível.</p>
+{% endif %}
+
+{% endblock %}

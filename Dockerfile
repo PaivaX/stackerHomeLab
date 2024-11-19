@@ -4,6 +4,9 @@ FROM python:3.9-slim
 # Setando o diretório de trabalho
 WORKDIR /app
 
+# Install nano
+RUN apt-get update && apt-get install -y nano && rm -rf /var/lib/apt/lists/*
+
 # Copiar o arquivo de dependências
 COPY /homelab/requirements.txt .
 

@@ -21,7 +21,8 @@ from two_factor.urls import urlpatterns as tf_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('dashboard.urls')),  # URLs do app dashboard
+    path('', include('dashboard.urls')),
+    path('', include('cards.urls')),
     path('', include(tf_urls)),
-    path('logout/', LogoutView.as_view(), name='logout'),  # Logout
+    path('logout/', LogoutView.as_view(), name='logout'),
 ]
