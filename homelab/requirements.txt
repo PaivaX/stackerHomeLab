@@ -1,0 +1,8 @@
+django 
+djangorestframework 
+django-environ 
+django-crispy-forms 
+django-allauth
+django-otp
+django-two-factor-auth
+phonemumbers
