@@ -12,10 +12,6 @@ def layoutstatic(request):
     services = None
     return render(request, 'layout-static.html', {'services': services})
 
-def index(request):
-    services = None
-    return render(request, 'index.html', {'services': services})
-
 def dash_index(request):
     services = Service.objects.all()
     return render(request, 'dashboard/dashboard.html', {'services': services})

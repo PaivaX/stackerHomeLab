@@ -5,7 +5,7 @@ FROM python:3.9-slim
 WORKDIR /homelab
 
 # Copiar o arquivo de dependências
-COPY requirements.txt .
+COPY /homelab/requirements.txt .
 
 # Instalar as dependências
 RUN pip install --no-cache-dir -r requirements.txt
