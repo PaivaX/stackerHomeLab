@@ -6,24 +6,25 @@
     {% block extrastyle %}{% endblock extrastyle %}
 </head>
 <body>  
-    {% block header %}
-      {% include 'includes/navigation.html' %}
-    {% endblock header %}
 
-    <!-- [ Main Content ] start -->
-    <div class="pcoded-main-container">
-      <div class="pcoded-wrapper">
-        <div class="pcoded-content">
-          <div class="pcoded-inner-content">
-            <div class="main-body">
-              <div class="page-wrapper">
-                {% block content %}{% endblock content %}
-              </div>
-            </div>
+{% block header %}
+  {% include 'includes/navigation.html' %}
+{% endblock header %}
+
+<!-- [ Main Content ] start -->
+<div class="pcoded-main-container">
+  <div class="pcoded-wrapper">
+    <div class="pcoded-content">
+      <div class="pcoded-inner-content">
+        <div class="main-body">
+          <div class="page-wrapper">
+            {% block content %}{% endblock content %}
           </div>
         </div>
       </div>
     </div>
-    {% include 'includes/scripts.html' %}
+  </div>
+</div>
+{% include 'includes/scripts.html' %}
 </body>
 </html>

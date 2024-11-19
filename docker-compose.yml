@@ -1,0 +1,28 @@
+version: "3"
+services:
+  stackerhomelab:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: homedashlab
+    restart: always
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app  # Caso queira persistir dados de código em tempo real
+    environment:
+      - DEBUG=True
+
+  uptimekuma:
+    image: louislam/uptime-kuma:latest
+    container_name: uptimekuma
+    restart: always
+    ports:
+      - "3001:3001"  # Uptime Kuma port
+    volumes:
+      - uptimekuma_data:/app/data
+    environment:
+      - TZ=Europe/Lisbon # Change to your localtime
+
+volumes:
+  uptimekuma_data:
