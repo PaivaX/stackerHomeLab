@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>{% block title %}{% endblock %}</title>
+  <title>{% block title %}{% endblock %} - StackerHomeLab</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" media="screen">
   <script defer src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -27,7 +27,17 @@
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
   }
     h1 {
-      text-align: center; /* Alinha o texto ao centro */
+      text-align: center;
+      color: white;
+    }
+    h2 {
+      text-align: left;
+      font-size: 1.5em;
+      color: #918dd1;
+    }
+    h3 {
+      text-align: left;
+      font-size: 1.17em;
       color: white;
     }
     label {
@@ -49,6 +59,15 @@ tr {
   list-style-type: none; /* Remove o marcador de lista */
   padding: 0; /* Remove o espaçamento extra */
 }
+.credits {
+  position: fixed; /* Fixa na posição da janela */
+  bottom: 10px; /* Margem inferior */
+  right: 10px; /* Margem direita */
+  color: white; /* Cor do texto */
+  font-size: 14px; /* Tamanho do texto */
+  text-align: right; /* Alinha o texto à direita */
+}
+
   </style>
   {% block extra_media %}{% endblock %}
 </head>
@@ -58,6 +77,7 @@ tr {
       {% block content %}{% endblock %}
     </div>
   {% endblock %}
+  <p class="credits"><a target="_blank" href="https://rpx.pt">StackerHomeLab By Rui Paiva</a></p>
 </body>
 </html>
 

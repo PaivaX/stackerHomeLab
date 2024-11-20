@@ -14,7 +14,7 @@
                     <div class="container-fluid px-4">
                         <h1 class="mt-4">Dashboard</h1>
                         <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item active">Links</li>
+                            <li class="breadcrumb-item active">Info</li>
                         </ol>
                         
                         <div class="row">
@@ -50,34 +50,31 @@
                         </ol>
 
                         <div class="row">
-                            <div class="col-xl-3 col-md-6">
-                            <div class="card bg-warning text-white mb-4">
-                                <div class="card-body">Warning Card</div>
-                                <div class="card-footer d-flex align-items-center justify-content-between">
-                                    <a class="small text-white stretched-link" href="#">View Details</a>
-                                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                            {% for link in links %}
+                                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-3">
+                                    <div class="cardp text-white bg-dark shadow-sm hover-effect">
+                                        {% if link.image %}
+                                            <img src="{{ link.image.url }}" class="cardp-img-top" alt="{{ link.name }}">
+                                        {% else %}
+                                            <div class="cardp-img-top d-flex justify-content-center align-items-center bg-secondary">
+                                                <i class="fas fa-link fa-2x text-white"></i>
+                                            </div>
+                                        {% endif %}
+                                        <div class="cardp-body p-2">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <h6 class="cardp-title text-truncate" title="{{ link.name }}">{{ link.name }}</h6>
+                                                <a href="{{ link.url }}" class="text-white" {% if link.open_in_new_tab %} target="_blank" rel="noopener noreferrer" {% endif %}>
+                                                    <i class="fas fa-arrow-circle-right fa-lg"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="cardp-description p-3">
+                                            <p class="cardp-text text-truncate" title="{{ link.description }}">{{ link.description }}</p>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                            {% endfor %}
                         </div>
-                        <div class="col-xl-3 col-md-6">
-                            <div class="card bg-success text-white mb-4">
-                                <div class="card-body">Success Card</div>
-                                <div class="card-footer d-flex align-items-center justify-content-between">
-                                    <a class="small text-white stretched-link" href="#">View Details</a>
-                                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-md-6">
-                            <div class="card bg-danger text-white mb-4">
-                                <div class="card-body">Danger Card</div>
-                                <div class="card-footer d-flex align-items-center justify-content-between">
-                                    <a class="small text-white stretched-link" href="#">View Details</a>
-                                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                </div>
-                            </div>
-                        </div>  
-                    </div>
 
 
                         <div class="row">

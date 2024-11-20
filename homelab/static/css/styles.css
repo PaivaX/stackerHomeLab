@@ -64,6 +64,99 @@
   --bs-body-bg: #fff;
 }
 
+/* MOD */
+/* Garantir altura constante para o cartão */
+.cardp {
+  position: relative;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  height: 190px; /* Altura fixa para o cartão */
+}
+
+/* Efeito de hover para o cartão */
+.cardp:hover {
+  transform: scale(1.05); /* Ampliação suave ao passar o mouse */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Sombra 3D */
+}
+
+/* Ajustes para a imagem */
+.cardp-img-top {
+  width: 100%; /* A imagem ocupa toda a largura do cartão */
+  height: 150px; /* Altura fixa para a imagem */
+  object-fit: cover; /* A imagem se ajusta sem deformar */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Separador entre a imagem e o conteúdo */
+}
+
+/* Quando não há imagem, criar um fundo colorido */
+.cardp-img-top.d-flex {
+  height: 150px; /* Altura fixa quando não há imagem */
+  background-color: #6c757d; /* Cor de fundo padrão */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Efeito de hover para revelar a descrição */
+.cardp-description {
+  display: none; /* Inicialmente oculta */
+  position: absolute;
+  bottom: 40px; /* Posiciona a descrição imediatamente acima do body */
+  left: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.7); /* Fundo semitransparente */
+  color: white;
+  padding: 10px;
+  transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+  transform: translateY(100%); /* Desloca a descrição para baixo quando oculta */
+  opacity: 0;
+  font-size: 10px;
+  pointer-events: none; /* Garante que o link não seja bloqueado pela descrição */
+}
+
+/* Ao passar o mouse, a descrição aparece */
+.cardp:hover .cardp-description {
+  display: block;
+  transform: translateY(0); /* Desliza para cima */
+  opacity: 1;
+  pointer-events: auto; /* Habilita os eventos de clique na descrição */
+}
+
+/* Ajustes para o título do cartão */
+.cardp-title {
+  font-size: 0.9rem;
+  font-weight: bold;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* Ajustes para o conteúdo do cartão (descrição e footer) */
+.cardp-body {
+  padding: 0.75rem; /* Ajuste o espaçamento dentro do corpo do cartão */
+  height: 60px; /* Limita a altura do corpo do cartão */
+  overflow: hidden;
+}
+
+/* Ajuste do ícone de link */
+.cardp-footer .fas {
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+/* Ajustes do título e ícone na mesma linha */
+.cardp-body .d-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cardp-body .fa-arrow-circle-right {
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+
+/* END MOD*/
+
 *,
 *::before,
 *::after {

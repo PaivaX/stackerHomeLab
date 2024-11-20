@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'allauth.account',  # Adicione o allauth.account
     'dashboard',
     'cards',
+    'links'
 ]
 
 MIDDLEWARE = [
@@ -156,6 +157,8 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
+MEDIA_URL = '/uploads/'  # URL pública para acessar os arquivos de mídia
+MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')  # Diretório para armazenar os arquivos de mídia
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
