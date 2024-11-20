@@ -2,4 +2,6 @@
 db.sqlite3
 .env
 __pycache__/
-*.py[cod]
+*.pyc
+*.pyo
+uploads
