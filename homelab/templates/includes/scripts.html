@@ -7,3 +7,28 @@
 <script src="{% static 'assets/demo/chart-bar-demo.js' %}"></script>
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
 <script src="{% static 'js/datatables-simple-demo.js' %}"></script>
+<script>
+function fetchServerResources() {
+    fetch('/server-resources-data/')
+        .then(response => response.json())
+        .then(data => {
+            // Atualizar a CPU
+            document.getElementById('cpu-cores').textContent = data.cpu.logical_cores;
+            document.getElementById('cpu-usage').textContent = data.cpu.usage_percent;
+
+            // Atualizar a Memória
+            document.getElementById('memory-used').textContent = (data.memory.used / (1024 ** 3)).toFixed(2) + " GB";
+            document.getElementById('memory-total').textContent = (data.memory.total / (1024 ** 3)).toFixed(2) + " GB";
+            document.getElementById('memory-percent').textContent = data.memory.usage_percent;
+
+            // Atualizar o Disco
+            document.getElementById('disk-used').textContent = (data.disk.used / (1024 ** 3)).toFixed(2) + " GB";
+            document.getElementById('disk-total').textContent = (data.disk.total / (1024 ** 3)).toFixed(2) + " GB";
+            document.getElementById('disk-percent').textContent = data.disk.usage_percent;
+        })
+        .catch(error => console.error('Erro ao buscar dados do servidor:', error));
+}
+
+// Atualiza os dados a cada segundo
+setInterval(fetchServerResources, 1000);
+</script>

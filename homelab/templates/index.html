@@ -32,6 +32,12 @@
                                                         <li>{{ container.name }} - {{ container.status }}</li>
                                                     {% endfor %}
                                                 </ul>
+                                                {% elif card.card_type == "server_resources" %}
+                                                <ul class="card-text">
+                                                    <li><strong>CPU:</strong> {{ card.data.cpu.logical_cores }} núcleos lógicos - {{ card.data.cpu.usage_percent }}% em uso</li>
+                                                    <li><strong>Mem Ram:</strong> {{ card.data.memory.used|filesizeformat }} de {{ card.data.memory.total|filesizeformat }} ({{ card.data.memory.usage_percent }}% usado)</li>
+                                                    <li><strong>Hard Drive:</strong> {{ card.data.disk.used|filesizeformat }} de {{ card.data.disk.total|filesizeformat }} ({{ card.data.disk.usage_percent }}% usado)</li>
+                                                </ul>
                                             {% else %}
                                                 <p class="card-text">Dados: {{ card.data }}</p>
                                             {% endif %}
