@@ -7,7 +7,7 @@ services:
     container_name: stackerhomelab
     restart: always
     ports:
-      - "80:8000"
+      - "8080:8000"
     volumes:
       - .:/app  # Caso queira persistir dados de código em tempo real
     environment:
@@ -24,5 +24,32 @@ services:
     environment:
       - TZ=Europe/Lisbon # Change to your localtime
 
+  authelia:
+    image: authelia/authelia:latest
+    container_name: authelia
+    expose:
+      - 9091
+    environment:
+      - TZ=Europe/Lisbon
+    volumes:
+      - ./config:/config
+    restart: unless-stopped
+    ports:
+      - '127.0.0.1:9091:9091'
+
+  nginx:
+    image: jc21/nginx-proxy-manager:latest
+    container_name: nginx_proxy_manager
+    ports:
+      - "80:80"
+      - "443:443"
+      - "81:81"
+    volumes:
+      - ./nginx/data:/data
+      - ./nginx/letsencrypt:/etc/letsencrypt
+    restart: unless-stopped
+
 volumes:
   uptimekuma_data:
+  authelia_config:
+  authelia_data:

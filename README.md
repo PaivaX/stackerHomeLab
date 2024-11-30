@@ -13,12 +13,117 @@ Abstract:xxx
 - pytorch
 - numpy
 
-## Dataset Preparation
-| Dataset | Download |
-| ---     | ---   |
-| dataset-A | [download]() |
-| dataset-B | [download]() |
-| dataset-C | [download]() |
+% gerar password para o authelia
+https://bcrypt-generator.com/
+
+![auth.domain.com](image.png)
+
+![auth.domain.com SSL](image-1.png)
+
+Na aba Advanced do auth.domain.com, colocar:
+```
+location / {
+set $upstream_authelia http://authelia:9091;
+proxy_pass $upstream_authelia;
+client_body_buffer_size 128k;
+
+#Timeout if the real server is dead
+proxy_next_upstream error timeout invalid_header http_500 http_502 http_503;
+
+# Advanced Proxy Config
+send_timeout 5m;
+proxy_read_timeout 360;
+proxy_send_timeout 360;
+proxy_connect_timeout 360;
+
+# Basic Proxy Config
+proxy_set_header Host $host;
+proxy_set_header X-Real-IP $remote_addr;
+proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+proxy_set_header X-Forwarded-Proto $scheme;
+proxy_set_header X-Forwarded-Host $http_host;
+proxy_set_header X-Forwarded-Uri $request_uri;
+proxy_set_header X-Forwarded-Ssl on;
+proxy_redirect  http://  $scheme://;
+proxy_http_version 1.1;
+proxy_set_header Connection "";
+proxy_cache_bypass $cookie_session;
+proxy_no_cache $cookie_session;
+proxy_buffers 64 256k;
+
+}
+````
+
+No Advanced do serviço:
+```
+location /authelia {
+    internal;
+    set $upstream_authelia http://172.18.0.3:9091/api/verify; # IP e porta do Authelia
+    proxy_pass_request_body off;
+    proxy_pass $upstream_authelia;
+    proxy_set_header Content-Length "";
+    
+    # Timeout se o servidor real estiver inativo
+    proxy_next_upstream error timeout invalid_header http_500 http_502 http_503;
+    client_body_buffer_size 128k;
+    proxy_set_header Host $host;
+    proxy_set_header X-Original-URL $scheme://$http_host$request_uri;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $remote_addr;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_set_header X-Forwarded-Host $http_host;
+    proxy_set_header X-Forwarded-Uri $request_uri;
+    proxy_set_header X-Forwarded-Ssl on;
+    proxy_redirect http:// $scheme://;
+    proxy_http_version 1.1;
+    proxy_set_header Connection "";
+    proxy_cache_bypass $cookie_session;
+    proxy_no_cache $cookie_session;
+    proxy_buffers 4 32k;
+
+    send_timeout 5m;
+    proxy_read_timeout 240;
+    proxy_send_timeout 240;
+    proxy_connect_timeout 240;
+}
+
+location / {
+    set $upstream_portainer http://192.168.10.3:80;  # IP e porta do serviço
+    proxy_pass $upstream_portainer;
+
+    auth_request /authelia;
+    auth_request_set $target_url $scheme://$http_host$request_uri;
+    auth_request_set $user $upstream_http_remote_user;
+    auth_request_set $groups $upstream_http_remote_groups;
+    proxy_set_header Remote-User $user;
+    proxy_set_header Remote-Groups $groups;
+
+    # Redirecionar para a página de login do Authelia se a autenticação falhar
+    error_page 401 =302 https://auth.domain.com/?rd=$target_url;
+
+    client_body_buffer_size 128k;
+    proxy_next_upstream error timeout invalid_header http_500 http_502 http_503;
+    send_timeout 5m;
+    proxy_read_timeout 360;
+    proxy_send_timeout 360;
+    proxy_connect_timeout 360;
+
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_set_header X-Forwarded-Host $http_host;
+    proxy_set_header X-Forwarded-Uri $request_uri;
+    proxy_set_header X-Forwarded-Ssl on;
+    proxy_redirect http:// $scheme://;
+    proxy_http_version 1.1;
+    proxy_set_header Connection "";
+    proxy_cache_bypass $cookie_session;
+    proxy_no_cache $cookie_session;
+    proxy_buffers 64 256k;
+}
+```
+
 
 ## Use
 - for train
