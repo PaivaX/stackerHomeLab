@@ -126,7 +126,6 @@ location / {
 ```
 
 
-<<<<<<< HEAD
 ## Files Configuration
 - config/users_database.yml
   ```
@@ -230,97 +229,6 @@ stackerHomeLab
 │   ├── .env
 └── README.md
 ```
-=======
-## Use
-- config/users_database.yml
-  ```
-  users:
-  mail@mail.com:
-    displayname: "Your Name"
-    password: "$argon2id$v=19$m=65536,t=3,p=4$seu-hash-aqui"
-    email: "mail@mail.com"
-    groups:
-      - admins
-
-  ```
-- config/configuration.yml
-  ```
-###############################################################
-#                   Authelia configuration                    #
-###############################################################
-
-server:
-  address: 'tcp://:9091'
-
-log:
-  level: 'debug'
-
-totp:
-  issuer: '<domain>.pt'  # Nome que aparecer   no app de autentica    o
-  period: 30        # Intervalo de validade do c  digo (padr  o  >
-  skew: 1           # Toler  ncia de tempo (quantos per  odos ace>
-  digits: 6         # N  mero de d  gitos no c  digo (padr  o    >
-  algorithm: sha1   # Algoritmo usado (padr  o    SHA1)
-
-identity_validation:
-  reset_password:
-    jwt_secret: 'a_very_important_secret'
-
-# duo_api:
-#  hostname: api-123456789.example.com
-#  integration_key: ABCDEF
-#  # This secret can also be set using the env variables AUTHELIA>
-#  secret_key: 1234567890abcdefghifjkl
-
-authentication_backend:
-  file:
-    path: '/config/users_database.yml'
-
-access_control:
-  default_policy: 'deny'
-  rules:
-    # Rules applied to everyone
-    - domain: 'auth.example.com'
-      policy: 'bypass'
-    - domain: 'traefik.example.com'
-      policy: 'one_factor'
-    - domain: 'home.example.com'
-      policy: 'two_factor'
-
-session:
-  # This secret can also be set using the env variables AUTHELIA_>
-  secret: 'insecure_session_secret'
-  cookies:
-    - name: 'authelia_session'
-      domain: 'rpx.pt'  # Should match whatever your root protect>
-      authelia_url: 'https://<subdomain>.<domain>.com'
-      expiration: '1 hour'
-      inactivity: '5 minutes'
-
-regulation:
-  max_retries: 3
-  find_time: '2 minutes'
-  ban_time: '5 minutes'
-
-storage:
-  encryption_key: 'you_must_generate_a_random_string_of_more_than>
-  local:
-    path: '/config/db.sqlite3'
-
-notifier:
-  disable_startup_check: false
-  #filesystem:
-  #  filename: "config/notifications.log"
-  smtp:
-    username: 'mail@gmail.com'
-   # This secret can also be set using the env variables AUTHELIA>
-    password: 'pw'
-    address: 'smtp-relay.brevo.com:587'
-    sender: 'mail@gmail.com'
-  ```
-
-
->>>>>>> ba8ae8b85a8d717d47d876efe859f6586801686c
 
 ## Code Details
 ### Tested Platform
