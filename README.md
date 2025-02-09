@@ -2,16 +2,16 @@ StackerHomeLab
 ===
 Abstract:xxx
 ## Papar Information
-- Title:  `paper name`
-- Authors:  `A`,`B`,`C`
+- Title:  `DashHomeLab With MFA`
+- Authors:  `Rui Paiva`
 - Preprint: [https://arxiv.org/abs/xx]()
 - Full-preprint: [paper position]()
 - Video: [video position]()
 
 ## Install & Dependence
-- python
-- pytorch
-- numpy
+- authelia
+- nginx proxu manager
+- other service
 
 % gerar password para o authelia
 https://bcrypt-generator.com/
