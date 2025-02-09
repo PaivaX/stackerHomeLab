@@ -126,9 +126,16 @@ location / {
 
 
 ## Use
-- for train
+- config/users_database.yml
   ```
-  python train.py
+  users:
+  mail@mail.com:
+    displayname: "Your Name"
+    password: "$argon2id$v=19$m=65536,t=3,p=4$seu-hash-aqui"
+    email: "mail@mail.com"
+    groups:
+      - admins
+
   ```
 - for test
   ```
