@@ -125,21 +125,94 @@ location / {
 ```
 
 
-## Use
-- for train
+## Files Configuration
+- config/users_database.yml
   ```
-  python train.py
+  users:
+    mail@mail.com:
+      displayname: "Your Name"
+      password: "$argon2id$v=19$m=65536,t=3,p=4$seu-hash-aqui"
+      email: "mail@mail.com"
+      groups:
+        - admins
   ```
-- for test
+- config/configuration.yml
   ```
-  python test.py
+  ---
+  ###############################################################
+  #                   Authelia configuration                    #
+  ###############################################################
+
+  server:
+    address: 'tcp://:9091'
+
+  log:
+    level: 'debug'
+
+  totp:
+    issuer: '<domain>.pt'  # Nome que aparecer   no app de autentica    o
+    period: 30        # Intervalo de validade do c  digo (padr  o  >
+    skew: 1           # Toler  ncia de tempo (quantos per  odos ace>
+    digits: 6         # N  mero de d  gitos no c  digo (padr  o    >
+    algorithm: sha1   # Algoritmo usado (padr  o    SHA1)
+
+  identity_validation:
+    reset_password:
+      jwt_secret: 'a_very_important_secret'
+
+  # duo_api:
+  #  hostname: api-123456789.example.com
+  #  integration_key: ABCDEF
+  #  # This secret can also be set using the env variables AUTHELIA>
+  #  secret_key: 1234567890abcdefghifjkl
+
+  authentication_backend:
+    file:
+      path: '/config/users_database.yml'
+
+  access_control:
+    default_policy: 'deny'
+    rules:
+      # Rules applied to everyone
+      - domain: 'auth.example.com'
+        policy: 'bypass'
+      - domain: 'traefik.example.com'
+        policy: 'one_factor'
+      - domain: 'home.example.com'
+        policy: 'two_factor'
+
+  session:
+    # This secret can also be set using the env variables AUTHELIA_>
+    secret: 'insecure_session_secret'
+    cookies:
+      - name: 'authelia_session'
+        domain: 'rpx.pt'  # Should match whatever your root protect>
+        authelia_url: 'https://<subdomain>.<domain>.com'
+        expiration: '1 hour'
+        inactivity: '5 minutes'
+
+  regulation:
+    max_retries: 3
+    find_time: '2 minutes'
+    ban_time: '5 minutes'
+
+  storage:
+    encryption_key: 'you_must_generate_a_random_string_of_more_than>
+    local:
+      path: '/config/db.sqlite3'
+
+  notifier:
+    disable_startup_check: false
+    #filesystem:
+    #  filename: "config/notifications.log"
+    smtp:
+      username: 'mail@gmail.com'
+    # This secret can also be set using the env variables AUTHELIA>
+      password: 'pw'
+      address: 'smtp-relay.brevo.com:587'
+      sender: 'mail@gmail.com'
   ```
-## Pretrained model
-| Model | Download |
-| ---     | ---   |
-| Model-1 | [download]() |
-| Model-2 | [download]() |
-| Model-3 | [download]() |
+
 
 
 ## Directory Hierarchy
@@ -148,93 +221,11 @@ stackerHomeLab
 ├── .gitignore
 ├── docker-compose.yml
 ├── Dockerfile
+├── config
+│    ├── configuration.yml
+│    └── users_database.yml
 ├── homelab
 │   ├── .env
-│   ├── cards
-│   │   ├── admin.py
-│   │   ├── apps.py
-│   │   ├── migrations
-│   │   │   ├── 0001_initial.py
-│   │   │   ├── 0002_card_delete_publicipcard.py
-│   │   │   ├── 0003_publicipcard.py
-│   │   │   ├── 0004_delete_publicipcard.py
-│   │   │   ├── __init__.py
-│   │   │   └── __pycache__
-│   │   ├── models.py
-│   │   ├── urls.py
-│   │   ├── utils.py
-│   │   ├── views.py
-│   │   ├── __init__.py
-│   │   └── __pycache__
-│   ├── core
-│   │   ├── asgi.py
-│   │   ├── settings.py
-│   │   ├── urls.py
-│   │   ├── wsgi.py
-│   │   ├── __init__.py
-│   │   └── __pycache__
-│   ├── dashboard
-│   │   ├── admin.py
-│   │   ├── apps.py
-│   │   ├── cards.py
-│   │   ├── migrations
-│   │   │   ├── 0001_initial.py
-│   │   │   ├── 0002_card.py
-│   │   │   ├── 0003_card_open_in_new_tab.py
-│   │   │   ├── 0004_remove_card_created_at_remove_card_image_and_more.py
-│   │   │   ├── 0005_card_open_in_new_tab.py
-│   │   │   ├── 0006_remove_card_active_remove_card_data_and_more.py
-│   │   │   ├── 0007_delete_card_delete_service.py
-│   │   │   ├── __init__.py
-│   │   │   └── __pycache__
-│   │   ├── models.py
-│   │   ├── urls.py
-│   │   ├── views.py
-│   │   ├── __init__.py
-│   │   └── __pycache__
-│   ├── db.sqlite3
-│   ├── manage.py
-│   ├── requirements.txt
-│   ├── static
-│   │   ├── assets
-│   │   │   ├── demo
-│   │   │   │   ├── chart-area-demo.js
-│   │   │   │   ├── chart-bar-demo.js
-│   │   │   │   ├── chart-pie-demo.js
-│   │   │   │   └── datatables-demo.js
-│   │   │   └── img
-│   │   │       └── error-404-monochrome.svg
-│   │   ├── css
-│   │   │   ├── dark.css
-│   │   │   └── styles.css
-│   │   ├── images
-│   │   │   ├── fundo.jpg
-│   │   │   ├── fundo_.jpeg
-│   │   │   └── fundo_2.jpg
-│   │   └── js
-│   │       ├── datatables-simple-demo.js
-│   │       └── scripts.js
-│   └── templates
-│       ├── 401.html
-│       ├── 404.html
-│       ├── 500.html
-│       ├── cards
-│       │   └── card_template.html
-│       ├── charts.html
-│       ├── dashboard
-│       │   └── tools_dashboard.html
-│       ├── dashboard.html
-│       ├── includes
-│       │   ├── base.html
-│       │   ├── head.html
-│       │   ├── navigation.html
-│       │   ├── scripts.html
-│       │   └── sidebar.html
-│       ├── index.html
-│       ├── layout-sidenav-light.html
-│       ├── layout-static.html
-│       └── two_factor
-│           └── _base.html
 └── README.md
 ```
 
@@ -242,27 +233,13 @@ stackerHomeLab
 ### Tested Platform
 - software
   ```
-  OS: Debian unstable (May 2021), Ubuntu LTS
-  Python: 3.8.5 (anaconda)
-  PyTorch: 1.7.1, 1.8.1
+  OS: Debian 12
   ```
 - hardware
   ```
-  CPU: Intel Xeon 6226R
-  GPU: Nvidia RTX3090 (24GB)
+  CPU: Intel Core i5
+  GPU: Nvidia RTX3070
+  RAM: 16GB
   ```
-### Hyper parameters
-```
-```
-## References
-- [paper-1]()
-- [paper-2]()
-- [code-1](https://github.com)
-- [code-2](https://github.com)
-  
-## License
 
-## Citing
-If you use xxx,please use the following BibTeX entry.
-```
-```
+## License
